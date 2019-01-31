@@ -5,8 +5,10 @@ permalink: /formula/
 <p>This is a listing of all packages available via the <a href="https://brew.sh">Homebrew</a> package manager for macOS.</p>
 
 <h2><a href="{{ site.baseurl }}/api/formula.json"><code>/api/formula.json</code> (JSON API)</a></h2>
-
-<table>
+<div id="search-box">
+  <!-- SearchBox widget will appear here -->
+</div>
+<table id="hits">
     {%- assign sorted_formulae = site.data.formula | sort -%}
     {%- for formula in sorted_formulae %}
 
@@ -16,3 +18,33 @@ permalink: /formula/
     </tr>
     {%- endfor -%}
 </table>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4/dist/instantsearch.min.css">
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4"></script>
+<script type="text/javascript">
+const search = instantsearch({
+  appId: 'LUU3BD8SLQ',
+  apiKey: '38c3eec6748035d3c09119a83c726612',
+  indexName: 'formula',
+  routing: true
+});
+
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: '#search-box',
+      placeholder: 'Search for formulae'
+    })
+  );
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: '#hits',
+      templates: {
+        empty: 'No results',
+        allItems: function(object) {
+        	return '<tr><td>{{ name }}</td><td>✅</td><td>{{ version }}</td><td>{{ description }}</td><tr>';
+        }
+      }
+    })
+  );
+
+  search.start();
+</script>

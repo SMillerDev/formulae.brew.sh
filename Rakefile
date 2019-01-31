@@ -8,7 +8,7 @@ task default: :dump
 desc "Dump formulae data"
 task :formulae do
   ENV["HOMEBREW_FORCE_HOMEBREW_ON_LINUX"] = "1"
-  sh "brew", "ruby", "script/generate.rb"
+  sh "brew", "ruby", "script/generate.rb", ENV["ALGOLIA_APP_ID"], ENV["ALGOLIA_API_KEY"]
 end
 
 def generate_analytics?
